@@ -12,8 +12,8 @@ function factorize() {
     const factors = [];
     for (let p = 2; p <= Math.sqrt(n); p++) {
         if (n % p === 0) {
-            factors.push(p);
             while (n % p === 0) {
+                factors.push(p);
                 n = Math.floor(n / p);
             }
         }
