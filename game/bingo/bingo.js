@@ -1,13 +1,26 @@
 function generateBingoCard() {
-    const numbers = new Set();
-    while (numbers.size < 24) {
-        const randomNum = Math.floor(Math.random() * 50) + 1;
-        numbers.add(randomNum);
-    }
-    const numberArray = Array.from(numbers);
+    const ranges = [
+        { min: 1, max: 15 },
+        { min: 16, max: 30 },
+        { min: 31, max: 45 },
+        { min: 46, max: 60 },
+        { min: 61, max: 75 }
+    ];
+    const columns = ranges.map(range => {
+        const numbers = new Set();
+        while (numbers.size < 5) {
+            const randomNum = Math.floor(Math.random() * (range.max - range.min + 1)) + range.min;
+            numbers.add(randomNum);
+        }
+        return Array.from(numbers);
+    });
+
+    // カードの真ん中を "FREE" に設定
+    columns[2][2] = 'FREE';
+
     const table = document.getElementById('bingo-card');
     table.innerHTML = ''; // 既存のビンゴカードをクリア
-    let index = 0;
+
     for (let i = 0; i < 5; i++) {
         const row = document.createElement('tr');
         for (let j = 0; j < 5; j++) {
@@ -16,7 +29,7 @@ function generateBingoCard() {
                 cell.textContent = 'FREE';
                 cell.classList.add('free');
             } else {
-                cell.textContent = numberArray[index++];
+                cell.textContent = columns[j][i];
             }
             row.appendChild(cell);
         }
