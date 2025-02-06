@@ -33,4 +33,12 @@ grouped_middle_area = (
     .reset_index(name="件数")
     .sort_values(by="件数", ascending=False)
 )
+grouped_middle_area["大エリア"] = grouped_middle_area["中エリア"].apply(lambda x: x[:5])
+grouped_middle_area = grouped_middle_area[["大エリア", "中エリア", "件数"]]
 print(grouped_middle_area.to_string(index=False))
+
+# 大エリアのグループ件数をCSVに保存
+grouped_large_area.to_csv("grouped_large_area.csv", encoding="utf-8", index=False)
+
+# 中エリアのグループ件数をCSVに保存
+grouped_middle_area.to_csv("grouped_middle_area.csv", encoding="utf-8", index=False)
